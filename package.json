@@ -1,0 +1,21 @@
+{
+  "name": "user-api-basic",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "ioax",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node app.js"
+  },
+  "dependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/node": "^7.29.0",
+    "@babel/preset-env": "^7.29.0",
+    "body-parser": "^2.2.2",
+    "express": "^5.2.1",
+    "mysql2": "^3.16.3",
+    "nodemon": "^3.1.11"
+  }
+}
