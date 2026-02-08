@@ -1,17 +1,72 @@
 const userModel = require('../models/user')
 
-const createNewUser = async (req, res) => {
-    let name = req.body.username
-    let email = req.body.email
-    let password = req.body.password
+const createNewUser = async (req, res, next) => {
+    try {
+        const { username, email, password } = req.body
+        const user = await userModel.createNewUser(username, email, password)
+        res.status(201).json({
+            EM: 'created success',
+            EC: 0,
+            DT: user
+        })
+    } catch (error) {
+        next(error)
+    }
+}
 
-    let result = await userModel.createNewUser(name, email, password)
-    //console.log(result)
-    if (result==+0)
-        res.send("Successed create new user!")
-    else res.send("Failed to create new user!")
+const getAllUser = async (req, res, next)=> {
+    try {
+        const users = await userModel.getAllUser()
+        res.status(200).json({
+            EM: 'get all success',
+            EC: 0,
+            DT: users
+        })
+    } catch (er){
+        next(er)
+    }
+}
+
+const getUserById = async (req, res, next) => {
+    try {
+        const user = await userModel.getUserById(req.params.id)
+        res.status(200).json({
+            EM: 'get success',
+            EC: 0,
+            DT: user
+        })
+    } catch (er) {
+        next(er)
+    }
+}
+
+const updateUserById = async (req, res, next) => {
+    try {
+        const {username, email, password} = req.body
+        const user = await userModel.updateUserById(req.params.id, username, email, password)
+        res.status(200).json({
+            EM: 'updated success',
+            EC: 0,
+            DT: user
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
+const deleteUserById = async (req, res, next) => {
+    try {
+        await userModel.deleteUserById(req.params.id)
+        res.status(200).json({
+            EM: 'deleted success',
+            EC: 0,
+            DT: []
+        })
+    } catch (e) {
+        next(e)
+    }
 }
 
 module.exports = {
-    createNewUser
+    createNewUser, getAllUser, getUserById, updateUserById, deleteUserById
 }

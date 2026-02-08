@@ -1,29 +1,46 @@
-const mysql =  require('mysql2/promise');
-
-// Create the connection to database
-const initDB = async () => {
-    connection = await mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: '123456',
-        database: 'user-api-basic'
-    });
-}
-initDB();
+const db = require('../configs/database')
 
 const createNewUser = async (name, email, password) =>{
-    try {
-        const results = await connection.query(
-            'insert into users (name, email, password) values (?, ?, ?)', [name, email, password]
-        );
-
-        return 0;
-        } catch (err) {
-        console.log(err);
-        return 1;
+    const result = await db.query(
+        'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
+        [name, email, password]
+    )
+    //console.log(result)
+    return {
+        name,
+        email
     }
 }
 
+const getAllUser = async () => {
+    const result = await db.query(
+        'SELECT id, name, email, created_at FROM users'
+    )
+    return result[0]
+}
+
+const getUserById = async (id) => {
+    const result = await db.query(
+        'SELECT id, name, email, created_at FROM users WHERE id=?', [id]
+    )
+    return result[0]
+}
+
+const updateUserById = async (id, name, email, password) => {
+    await db.query(
+        'UPDATE users SET name=?, email=?, password=? WHERE id=?', [name, email, password, id]
+    )
+    return {
+        id, name, email
+    }
+}
+
+const deleteUserById = async (id) => {
+    await db.query(
+        'DELETE FROM users WHERE id=?', [id]
+    )
+}
+
 module.exports = {
-    createNewUser
+    createNewUser, getAllUser, getUserById, updateUserById, deleteUserById
 }

@@ -2,13 +2,10 @@ const express = require('express')
 const router = express.Router()
 const userController = require('../controllers/user')
 
-router.get('/', (req, res)=>res.send("User show here"))
-//router.get('/create', (req, res)=>res.render("../views/users.ejs"))
-
-router.post('/create-user', userController.createNewUser)
-// router.post('/create-user', (req, res)=>{
-//     console.log(req.body)
-//     res.send("post user")
-// })
+router.get('/', userController.getAllUser)
+router.post('/', userController.createNewUser)  // POST /users -> chuan RESTful
+router.get('/:id', userController.getUserById)
+router.put('/:id', userController.updateUserById)
+router.delete('/:id', userController.deleteUserById)
 
 module.exports = router

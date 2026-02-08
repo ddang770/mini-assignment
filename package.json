@@ -4,7 +4,7 @@
   "description": "",
   "license": "ISC",
   "author": "ioax",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec babel-node ./src/app.js"
@@ -14,6 +14,7 @@
     "@babel/node": "^7.29.0",
     "@babel/preset-env": "^7.29.0",
     "body-parser": "^2.2.2",
+    "dotenv": "^17.2.4",
     "express": "^5.2.1",
     "mysql2": "^3.16.3",
     "nodemon": "^3.1.11"
