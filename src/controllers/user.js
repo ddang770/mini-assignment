@@ -1,9 +1,9 @@
-const userModel = require('../models/user')
+const userModel = require('../services/user')
 
 const createNewUser = async (req, res, next) => {
     try {
-        const { username, email, password } = req.body
-        const user = await userModel.createNewUser(username, email, password)
+        const { name, email, password } = req.body
+        const user = await userModel.createNewUser(name, email, password)
         res.status(201).json({
             EM: 'created success',
             EC: 0,
@@ -30,11 +30,17 @@ const getAllUser = async (req, res, next)=> {
 const getUserById = async (req, res, next) => {
     try {
         const user = await userModel.getUserById(req.params.id)
-        res.status(200).json({
-            EM: 'get success',
-            EC: 0,
-            DT: user
-        })
+        if (user)
+            res.status(200).json({
+                EM: 'get success',
+                EC: 0,
+                DT: user
+            })
+        else res.status(200).json({
+                EM: 'User not found',
+                EC: 1,
+                DT: user
+            })
     } catch (er) {
         next(er)
     }
@@ -42,8 +48,8 @@ const getUserById = async (req, res, next) => {
 
 const updateUserById = async (req, res, next) => {
     try {
-        const {username, email, password} = req.body
-        const user = await userModel.updateUserById(req.params.id, username, email, password)
+        const {name, email, password} = req.body
+        const user = await userModel.updateUserById(req.params.id, name, email, password)
         res.status(200).json({
             EM: 'updated success',
             EC: 0,

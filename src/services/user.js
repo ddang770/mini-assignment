@@ -23,6 +23,7 @@ const getUserById = async (id) => {
     const result = await db.query(
         'SELECT id, name, email, created_at FROM users WHERE id=?', [id]
     )
+    if (result[0].length === 0) return null
     return result[0]
 }
 
@@ -36,9 +37,10 @@ const updateUserById = async (id, name, email, password) => {
 }
 
 const deleteUserById = async (id) => {
-    await db.query(
+    const [result] = await db.query(
         'DELETE FROM users WHERE id=?', [id]
     )
+    if (result.affectedRows === 0) throw new Error('User not found')
 }
 
 module.exports = {
