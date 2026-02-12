@@ -28,6 +28,27 @@ const validateRegister = (req, res, next) => {
     
 };
 
+const validateLogin = (req, res, next) => {
+    try{
+        const {email, password} = req.body
+
+        const validators = [
+            { condition: !email, message: "Please enter email" },
+            { condition: !validEmailFormat(email), message: "Invalid email" },
+            { condition: !password, message: "Please enter password" }
+        ];
+        for (const v of validators) {
+            if (v.condition) {
+                return sendError(res, v.message)
+            }
+        }
+        next()
+    } catch (e){
+        next(e)
+    }
+    
+};
+
 const validEmailFormat = (email) => {
     // A simple, common regex pattern for basic email format
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -36,4 +57,4 @@ const validEmailFormat = (email) => {
     return emailPattern.test(email);
 }
 
-module.exports = {validateRegister}
+module.exports = {validateRegister, validateLogin}
