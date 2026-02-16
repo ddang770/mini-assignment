@@ -1,7 +1,7 @@
 const db = require('../configs/database')
 
 const createNewUser = async (name, email, password) =>{
-    const result = await db.query(
+    await db.query(
         'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
         [name, email, password]
     )
